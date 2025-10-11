@@ -1,0 +1,66 @@
+create database finanzas_personales;
+
+use finanzas_personales;
+
+CREATE TABLE usuarios (
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+username VARCHAR(50) UNIQUE NOT NULL,
+correo VARCHAR(100) UNIQUE NOT NULL,
+contraseña_hash VARCHAR(255) NOT NULL,
+fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE categorias (
+ id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ usuario_id BIGINT NOT NULL,
+ nombre VARCHAR(50) NOT NULL,
+ tipo ENUM('INGRESOS', 'GASTOS') NOT NULL,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+CREATE TABLE transacciones (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id BIGINT NOT NULL,
+    categoria_id BIGINT NOT NULL,
+    monto DECIMAL(12, 2) NOT NULL,
+    descripcion VARCHAR(255),
+    fecha_transaccion DATE NOT NULL,
+    tipo ENUM('INGRESO', 'GASTO') NOT NULL,
+    metodo_pago ENUM('EFECTIVO', 'TARJETA_CREDITO', 'TARJETA_DEBITO', 'TRANSFERENCIA_BANCARIA', 'OTRO') DEFAULT 'EFECTIVO',
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE RESTRICT
+);
+ 
+ 
+ CREATE TABLE metas_financieras (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id BIGINT NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    monto_objetivo DECIMAL(12, 2) NOT NULL,
+    monto_actual DECIMAL(12, 2) DEFAULT 0.00,
+    fecha_objetivo DATE,
+    estado ENUM('ACTIVA', 'COMPLETADA', 'PAUSADA', 'CANCELADA') DEFAULT 'ACTIVA',
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+CREATE TABLE deudas (
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ usuario_id BIGINT NOT NULL,
+ nombre_acreedor VARCHAR(100) NOT NULL,
+ descripcion VARCHAR(255),
+ monto_original DECIMAL(12, 2) NOT NULL,
+ monto_restante DECIMAL(12, 2) NOT NULL,
+fecha_vencimiento DATE,
+estado ENUM('ACTIVA', 'PAGADA', 'VENCIDA') DEFAULT 'ACTIVA',
+fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+ 
