@@ -24,11 +24,6 @@ public class Transaccion {
     @JsonBackReference(value = "usuario-transacciones")
     private Usuario usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "categoria_id", nullable = false)
-    @JsonBackReference(value = "categoria-transacciones")
-    private Categoria categoria;
-
     @Column(name = "monto", nullable = false, precision = 12, scale = 2)
     private BigDecimal monto;
 
@@ -57,10 +52,9 @@ public class Transaccion {
     public Transaccion() {
     }
 
-    public Transaccion(Usuario usuario, Categoria categoria, BigDecimal monto, String descripcion,
+    public Transaccion(Usuario usuario, BigDecimal monto, String descripcion,
                        LocalDate fechaTransaccion, TipoTransaccion tipo, MetodoPago metodoPago) {
         this.usuario = usuario;
-        this.categoria = categoria;
         this.monto = monto;
         this.descripcion = descripcion;
         this.fechaTransaccion = fechaTransaccion;
@@ -82,14 +76,6 @@ public class Transaccion {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
     }
 
     public BigDecimal getMonto() {

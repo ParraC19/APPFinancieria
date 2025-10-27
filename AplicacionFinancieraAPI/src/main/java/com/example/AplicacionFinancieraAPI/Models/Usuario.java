@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,21 +28,19 @@ public class Usuario {
     @Column(name = "fecha_creacion", nullable = false, updatable = false)
     private LocalDateTime fechaCreacion;
 
-    @OneToMany(mappedBy = "usuario")
-    @JsonManagedReference(value = "usuario-categorias")
-    private List<Categoria> categorias = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "usuario")
     @JsonManagedReference(value = "usuario-transacciones")
-    private List<Transaccion> transacciones = new ArrayList<>();
+    private List<Transaccion> transacciones ;
 
     @OneToMany(mappedBy = "usuario")
     @JsonManagedReference(value = "usuario-metas")
-    private List<Meta> metas = new ArrayList<>();
+    private List<Meta> metas;
 
     @OneToMany(mappedBy = "usuario")
     @JsonManagedReference(value = "usuario-deudas")
-    private List<Deuda> deudas = new ArrayList<>();
+    private List<Deuda> deudas;
 
     public Usuario() {
     }
@@ -88,14 +85,6 @@ public class Usuario {
 
     public LocalDateTime getFechaCreacion() {
         return fechaCreacion;
-    }
-
-    public List<Categoria> getCategorias() {
-        return categorias;
-    }
-
-    public void setCategorias(List<Categoria> categorias) {
-        this.categorias = categorias;
     }
 
     public List<Transaccion> getTransacciones() {
