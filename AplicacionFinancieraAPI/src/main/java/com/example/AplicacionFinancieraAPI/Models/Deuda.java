@@ -1,9 +1,14 @@
 package com.example.AplicacionFinancieraAPI.Models;
 
+import com.example.AplicacionFinancieraAPI.Helpers.EstadoDeuda;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "deudas")
@@ -11,79 +16,123 @@ public class Deuda {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Column(name = "nombre", nullable = false, length = 50)
-    private String nombre;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    @JsonBackReference(value = "usuario-deudas")
+    private Usuario usuario;
 
-    @Column(name = "fecha_final")
-    private LocalDate fechaFinal;
+    @Column(name = "nombre_acreedor", nullable = false, length = 100)
+    private String nombreAcreedor;
 
-    @Column(name = "valor_cuota", precision = 15, scale = 2)
-    private BigDecimal valorCuota;
+    @Column(name = "descripcion", length = 255)
+    private String descripcion;
 
-    @Column(name = "valor_total", precision = 15, scale = 2)
-    private BigDecimal valorTotal;
+    @Column(name = "monto_original", nullable = false, precision = 12, scale = 2)
+    private BigDecimal montoOriginal;
 
-    @Column(name = "valor_restante", precision = 15, scale = 2)
-    private BigDecimal valorRestante;
+    @Column(name = "monto_restante", nullable = false, precision = 12, scale = 2)
+    private BigDecimal montoRestante;
+
+    @Column(name = "fecha_vencimiento")
+    private LocalDate fechaVencimiento;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado", nullable = false, length = 20)
+    private EstadoDeuda estado = EstadoDeuda.ACTIVA;
+
+    @CreationTimestamp
+    @Column(name = "fecha_creacion", nullable = false, updatable = false)
+    private LocalDateTime fechaCreacion;
+
+    @UpdateTimestamp
+    @Column(name = "fecha_actualizacion")
+    private LocalDateTime fechaActualizacion;
 
     public Deuda() {
     }
 
-    public Deuda(String nombre, LocalDate fechaFinal, BigDecimal valorCuota, BigDecimal valorTotal, BigDecimal valorRestante) {
-        this.nombre = nombre;
-        this.fechaFinal = fechaFinal;
-        this.valorCuota = valorCuota;
-        this.valorTotal = valorTotal;
-        this.valorRestante = valorRestante;
+    public Deuda(Usuario usuario, String nombreAcreedor, String descripcion, BigDecimal montoOriginal,
+                 BigDecimal montoRestante, LocalDate fechaVencimiento, EstadoDeuda estado) {
+        this.usuario = usuario;
+        this.nombreAcreedor = nombreAcreedor;
+        this.descripcion = descripcion;
+        this.montoOriginal = montoOriginal;
+        this.montoRestante = montoRestante;
+        this.fechaVencimiento = fechaVencimiento;
+        this.estado = estado;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public LocalDate getFechaFinal() {
-        return fechaFinal;
+    public String getNombreAcreedor() {
+        return nombreAcreedor;
     }
 
-    public void setFechaFinal(LocalDate fechaFinal) {
-        this.fechaFinal = fechaFinal;
+    public void setNombreAcreedor(String nombreAcreedor) {
+        this.nombreAcreedor = nombreAcreedor;
     }
 
-    public BigDecimal getValorCuota() {
-        return valorCuota;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setValorCuota(BigDecimal valorCuota) {
-        this.valorCuota = valorCuota;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public BigDecimal getValorTotal() {
-        return valorTotal;
+    public BigDecimal getMontoOriginal() {
+        return montoOriginal;
     }
 
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
+    public void setMontoOriginal(BigDecimal montoOriginal) {
+        this.montoOriginal = montoOriginal;
     }
 
-    public BigDecimal getValorRestante() {
-        return valorRestante;
+    public BigDecimal getMontoRestante() {
+        return montoRestante;
     }
 
-    public void setValorRestante(BigDecimal valorRestante) {
-        this.valorRestante = valorRestante;
+    public void setMontoRestante(BigDecimal montoRestante) {
+        this.montoRestante = montoRestante;
+    }
+
+    public LocalDate getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(LocalDate fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public EstadoDeuda getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoDeuda estado) {
+        this.estado = estado;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public LocalDateTime getFechaActualizacion() {
+        return fechaActualizacion;
     }
 }

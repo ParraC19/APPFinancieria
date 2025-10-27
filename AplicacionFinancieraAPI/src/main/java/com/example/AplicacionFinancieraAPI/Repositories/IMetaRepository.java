@@ -7,9 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface IMetaRepository extends JpaRepository<Meta, Integer> {
+public interface IMetaRepository extends JpaRepository<Meta, Long> {
 
-    List<Meta> findByUsuarioId(Integer id);
-    List<Meta> findByTransactionId(Integer id);
-
+    List<Meta> findByUsuarioId(Long usuarioId);
 }
