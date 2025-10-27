@@ -28,4 +28,62 @@ public class Deuda {
     @Column(name = "valor_restante", precision = 15, scale = 2)
     private BigDecimal valorRestante;
 
+    public Deuda() {
+    }
+
+    public Deuda(String nombre, LocalDate fechaFinal, BigDecimal valorCuota, BigDecimal valorTotal, BigDecimal valorRestante) {
+        this.nombre = nombre;
+        this.fechaFinal = fechaFinal;
+        this.valorCuota = valorCuota;
+        this.valorTotal = valorTotal;
+        this.valorRestante = valorRestante;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public LocalDate getFechaFinal() {
+        return fechaFinal;
+    }
+
+    public void setFechaFinal(LocalDate fechaFinal) {
+        this.fechaFinal = fechaFinal;
+    }
+
+    public BigDecimal getValorCuota() {
+        return valorCuota;
+    }
+
+    public void setValorCuota(BigDecimal valorCuota) {
+        this.valorCuota = valorCuota;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public BigDecimal getValorRestante() {
+        return valorRestante;
+    }
+
+    public void setValorRestante(BigDecimal valorRestante) {
+        this.valorRestante = valorRestante;
+    }
 }

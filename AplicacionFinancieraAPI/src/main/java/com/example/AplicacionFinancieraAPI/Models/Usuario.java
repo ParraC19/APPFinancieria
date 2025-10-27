@@ -19,7 +19,7 @@ public class Usuario {
     @Column(name = "constraseña_hash", nullable = false, length = 200)
     private String contraseña;
 
-
+    
 
     public Usuario() {
     }
