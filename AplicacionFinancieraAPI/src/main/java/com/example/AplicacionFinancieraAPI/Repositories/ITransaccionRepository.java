@@ -10,6 +10,4 @@ import java.util.List;
 public interface ITransaccionRepository extends JpaRepository<Transaccion, Long> {
 
     List<Transaccion> findByUsuarioId(Long usuarioId);
-
-    List<Transaccion> findByCategoriaId(Long categoriaId);
 }

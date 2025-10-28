@@ -4,10 +4,8 @@ import com.example.AplicacionFinancieraAPI.DTOs.TransaccionDto;
 import com.example.AplicacionFinancieraAPI.DTOs.TransaccionRequest;
 import com.example.AplicacionFinancieraAPI.Exceptions.ResourceNotFoundException;
 import com.example.AplicacionFinancieraAPI.Mappers.TransaccionMapper;
-import com.example.AplicacionFinancieraAPI.Models.Categoria;
 import com.example.AplicacionFinancieraAPI.Models.Transaccion;
 import com.example.AplicacionFinancieraAPI.Models.Usuario;
-import com.example.AplicacionFinancieraAPI.Repositories.ICategoriaRepository;
 import com.example.AplicacionFinancieraAPI.Repositories.ITransaccionRepository;
 import com.example.AplicacionFinancieraAPI.Repositories.IUsuarioRepository;
 import org.springframework.stereotype.Service;
@@ -20,14 +18,11 @@ public class TransaccionService {
 
     private final ITransaccionRepository transaccionRepository;
     private final IUsuarioRepository usuarioRepository;
-    private final ICategoriaRepository categoriaRepository;
 
     public TransaccionService(ITransaccionRepository transaccionRepository,
-                              IUsuarioRepository usuarioRepository,
-                              ICategoriaRepository categoriaRepository) {
+                              IUsuarioRepository usuarioRepository) {
         this.transaccionRepository = transaccionRepository;
         this.usuarioRepository = usuarioRepository;
-        this.categoriaRepository = categoriaRepository;
     }
 
     public List<TransaccionDto> obtenerTodas() {
@@ -46,11 +41,8 @@ public class TransaccionService {
     public TransaccionDto crear(TransaccionRequest request) {
         Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
-        Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
-                .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
         Transaccion transaccion = new Transaccion();
         transaccion.setUsuario(usuario);
-        transaccion.setCategoria(categoria);
         transaccion.setMonto(request.getMonto());
         transaccion.setDescripcion(request.getDescripcion());
         transaccion.setFechaTransaccion(request.getFechaTransaccion());
@@ -65,10 +57,7 @@ public class TransaccionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Transacción no encontrada"));
         Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
-        Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
-                .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
         transaccion.setUsuario(usuario);
-        transaccion.setCategoria(categoria);
         transaccion.setMonto(request.getMonto());
         transaccion.setDescripcion(request.getDescripcion());
         transaccion.setFechaTransaccion(request.getFechaTransaccion());

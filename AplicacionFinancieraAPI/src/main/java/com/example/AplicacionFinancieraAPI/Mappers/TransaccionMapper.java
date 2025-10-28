@@ -15,7 +15,6 @@ public final class TransaccionMapper {
         TransaccionDto dto = new TransaccionDto();
         dto.setId(transaccion.getId());
         dto.setUsuarioId(transaccion.getUsuario() != null ? transaccion.getUsuario().getId() : null);
-        dto.setCategoriaId(transaccion.getCategoria() != null ? transaccion.getCategoria().getId() : null);
         dto.setMonto(transaccion.getMonto());
         dto.setDescripcion(transaccion.getDescripcion());
         dto.setFechaTransaccion(transaccion.getFechaTransaccion());
