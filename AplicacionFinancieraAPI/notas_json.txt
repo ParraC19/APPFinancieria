@@ -1,0 +1,126 @@
+# Esquemas JSON para el front-end
+
+Este bloc de notas resume los cuerpos JSON que el front-end debe enviar (requests) y los que recibirá (responses) de la API REST.
+
+## Usuarios (`/api/usuarios`)
+
+### Request (POST/PUT)
+```json
+{
+  "username": "ana.perez",
+  "correo": "ana.perez@example.com",
+  "contrasenaHash": "hashSeguro123"
+}
+```
+
+### Response (GET/POST/PUT)
+```json
+{
+  "id": 12,
+  "username": "ana.perez",
+  "correo": "ana.perez@example.com",
+  "fechaCreacion": "2024-06-05T14:23:11"
+}
+```
+
+## Metas (`/api/metas`)
+
+Valores permitidos para `estado`: `ACTIVA`, `COMPLETADA`, `PAUSADA`, `CANCELADA`.
+
+### Request (POST/PUT)
+```json
+{
+  "usuarioId": 12,
+  "nombre": "Fondo de emergencia",
+  "descripcion": "Ahorro para imprevistos",
+  "montoObjetivo": 2500.00,
+  "montoActual": 750.50,
+  "fechaObjetivo": "2024-12-31",
+  "estado": "ACTIVA"
+}
+```
+
+### Response (GET/POST/PUT)
+```json
+{
+  "id": 34,
+  "usuarioId": 12,
+  "nombre": "Fondo de emergencia",
+  "descripcion": "Ahorro para imprevistos",
+  "montoObjetivo": 2500.00,
+  "montoActual": 750.50,
+  "fechaObjetivo": "2024-12-31",
+  "estado": "ACTIVA",
+  "fechaCreacion": "2024-05-10T09:12:44",
+  "fechaActualizacion": "2024-06-01T16:45:02"
+}
+```
+
+## Transacciones (`/api/transacciones`)
+
+Valores permitidos para `tipo`: `INGRESO`, `GASTO`.
+Valores permitidos para `metodoPago`: `EFECTIVO`, `TARJETA_CREDITO`, `TARJETA_DEBITO`, `TRANSFERENCIA_BANCARIA`, `OTRO`.
+
+### Request (POST/PUT)
+```json
+{
+  "usuarioId": 12,
+  "categoriaId": 5,
+  "monto": 480.75,
+  "descripcion": "Compra supermercado",
+  "fechaTransaccion": "2024-06-07",
+  "tipo": "GASTO",
+  "metodoPago": "TARJETA_DEBITO"
+}
+```
+
+### Response (GET/POST/PUT)
+```json
+{
+  "id": 56,
+  "usuarioId": 12,
+  "categoriaId": 5,
+  "monto": 480.75,
+  "descripcion": "Compra supermercado",
+  "fechaTransaccion": "2024-06-07",
+  "tipo": "GASTO",
+  "metodoPago": "TARJETA_DEBITO",
+  "fechaCreacion": "2024-06-07T18:01:22",
+  "fechaActualizacion": "2024-06-07T18:01:22"
+}
+```
+
+## Deudas (`/api/deudas`)
+
+Valores permitidos para `estado`: `ACTIVA`, `PAGADA`, `VENCIDA`.
+
+### Request (POST/PUT)
+```json
+{
+  "usuarioId": 12,
+  "nombreAcreedor": "Banco Central",
+  "descripcion": "Préstamo personal",
+  "montoOriginal": 10000.00,
+  "montoRestante": 6400.00,
+  "fechaVencimiento": "2025-03-15",
+  "estado": "ACTIVA"
+}
+```
+
+### Response (GET/POST/PUT)
+```json
+{
+  "id": 78,
+  "usuarioId": 12,
+  "nombreAcreedor": "Banco Central",
+  "descripcion": "Préstamo personal",
+  "montoOriginal": 10000.00,
+  "montoRestante": 6400.00,
+  "fechaVencimiento": "2025-03-15",
+  "estado": "ACTIVA",
+  "fechaCreacion": "2024-02-20T11:30:55",
+  "fechaActualizacion": "2024-05-20T11:30:55"
+}
+```
+
+> Todas las fechas usan formato ISO-8601 (`YYYY-MM-DD` para fechas y `YYYY-MM-DDThh:mm:ss` para fecha-hora). Los montos se envían como números decimales.
